@@ -34,8 +34,41 @@ from runner.koan import *
 # Your goal is to write the score method.
 
 def score(dice):
+    def group_numbers(score):
+        acc = {}
+        for d in score:
+            acc[d] = (acc[d] + 1) if d in acc else 1
+        return acc
+
+    nums = group_numbers(dice)
+    res = 0
+    if nums:
+        # a set of three numbers is worth 100 times the number
+        # skip the calculation for 'ones'
+        for key,times in {k:v for (k, v) in nums.iteritems() if k not in [1,]}.iteritems():
+            if times >= 3:
+                res += (key * 100)
+
+        # every 1 is worth 100
+        # a set of three ones is worth 1000
+        if 1 in nums:
+            if nums[1] < 3:
+                res += (nums[1] * 100)
+            elif nums[1] == 3:
+                res += 1000
+            elif nums[1] > 3:
+                res += (1000 + ((nums[1] - 3) * 100))
+
+        # a 5 is worth 50
+        # we don't have to manage 3x5 because it's already handled earlier
+        if 5 in nums:
+            if nums[5] < 3:
+                res += (nums[5] * 50)
+            elif nums[5] > 3:
+                res += ((nums[5] - 3) * 50)
+
     # You need to write this method
-    pass
+    return res
 
 
 class AboutScoringProject(Koan):
