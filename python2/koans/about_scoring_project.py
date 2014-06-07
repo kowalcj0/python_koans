@@ -43,6 +43,7 @@ def score(dice):
     nums = group_numbers(dice)
     res = 0
     if nums:
+        # i could do it simpler but i wanted to play with dictionary iterations
         # a set of three numbers is worth 100 times the number
         # skip the calculation for 'ones'
         for key,times in {k:v for (k, v) in nums.iteritems() if k not in [1,]}.iteritems():
